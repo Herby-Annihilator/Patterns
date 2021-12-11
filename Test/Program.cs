@@ -21,8 +21,9 @@ namespace Test
 
 			DefaultExamGenerator defaultExamGenerator = new DefaultExamGenerator(new DefaultTestDataProvider(),
 				new DefaultExersiceDataProvider());
+			ExamGeneratorProxy proxy = new ExamGeneratorProxy(defaultExamGenerator);
 
-			Presentator presentator = new ConsolePresentator(accountManager, defaultLoginService, defaultExamGenerator);
+			Presentator presentator = new ConsolePresentator(accountManager, defaultLoginService, proxy); // Proxy
 			presentator.StartPresentation();
 		}
 	}
