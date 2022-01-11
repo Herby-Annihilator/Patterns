@@ -29,7 +29,7 @@ namespace Infrastructure.Services
 			List<Test> tests = new List<Test>();
 			Test test = new Test()
 			{
-				Exersices = new List<MultipleChoiceExersice>()
+				Entities = new List<MultipleChoiceExersice>()
 			};
 			test.Description = testDataProvider.GetDescription(0);
 			test.Duration = testDataProvider.GetDuration(0);
@@ -42,7 +42,7 @@ namespace Infrastructure.Services
 				exersice.RequairedAnswer = exersiceDataProvider.GetRequiredAnswer(i);
 				exersice.TestableSkill = exersiceDataProvider.GetTestableSkill(i);
 				exersice.Variants = exersiceDataProvider.GetVariants(i);
-				test.Exersices.Add(exersice);
+				test.Entities.Add(exersice);
 			}
 			tests.Add(test);
 			exam.Tests = tests;
