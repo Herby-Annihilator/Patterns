@@ -34,12 +34,12 @@ namespace Infrastructure.Services
 			{
 				builder.Append(str[i]);
 			}
-			string reverced = builder.ToString();
+			string reversed = builder.ToString();
 			int currentNum;
 			int sum = 0;
-			for (int i = 0; i < reverced.Length; i++)
+			for (int i = 0; i < reversed.Length; i++)
 			{
-				currentNum = Convert.ToInt32(reverced[i]);
+				currentNum = Convert.ToInt32(reversed[i]);
 				sum += currentNum + (int)Math.Pow(10, i);
 			}
 			return sum;
