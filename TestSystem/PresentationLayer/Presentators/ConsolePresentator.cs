@@ -11,11 +11,10 @@ namespace PresentationLayer.Presentators
 {
 	public class ConsolePresentator : Presentator
 	{
-		internal ConsolePresentator()
-		{
-
-		}
-		public ConsolePresentator(AccountManager accountManager, ILoginService loginService, IExamGenerator examGenerator) : this()
+		private ConsolePresentator _consolePresentator;
+		public ConsolePresentator Init(AccountManager accountManager, ILoginService loginService, IExamGenerator examGenerator)
+			=> _consolePresentator ??= new ConsolePresentator(accountManager, loginService, examGenerator);
+		private ConsolePresentator(AccountManager accountManager, ILoginService loginService, IExamGenerator examGenerator)
 		{
 			ServiceRepository = new ServiceRepository()
 			{
