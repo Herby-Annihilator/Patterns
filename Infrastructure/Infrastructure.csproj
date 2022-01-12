@@ -8,4 +8,8 @@
     <ProjectReference Include="..\SystemCore\SystemCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AbstractFactories\" />
+  </ItemGroup>
+
 </Project>
