@@ -6,7 +6,7 @@ using SystemCore.Iterators;
 
 namespace SystemCore.Entities
 {
-	public interface IDescribedEntity : IEnumerable<IDescribedEntity>
+	public interface IDescribedEntity : IEnumerable<IDescribedEntity>, ICloneable<IDescribedEntity>
 	{
 		string GetDescription();
 	}

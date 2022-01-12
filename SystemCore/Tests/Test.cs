@@ -28,5 +28,15 @@ namespace SystemCore.Tests
 		public string GetDescription() => Description;
 
 		public Iterators.IEnumerator<IDescribedEntity> GetEnumerator() => new DescribedEntityEnumerator(this);
+
+		public IDescribedEntity Clone()
+		{
+			Test test = new Test((string)Description.Clone(), Duration);
+			foreach (var item in Entities)
+			{
+				test.Entities.Add(item.Clone());
+			}
+			return test;
+		}
 	}
 }

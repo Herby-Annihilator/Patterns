@@ -13,6 +13,15 @@ namespace SystemCore.Exersices
 		public string Wording { get; set; }
 		public Skill TestableSkill { get; set; }
 
+		public virtual IDescribedEntity Clone()
+		{
+			Exersice exersice = new Exersice();
+			exersice.Instruction = (string)Instruction.Clone();
+			exersice.Wording = (string)Wording.Clone();
+			exersice.TestableSkill = new Skill(TestableSkill.ID, (string)TestableSkill.Description.Clone());
+			return exersice;
+		}
+
 		public string GetDescription() => Instruction + Wording;
 
 		public IEnumerator<IDescribedEntity> GetEnumerator() => new DescribedEntityEnumerator(this);
