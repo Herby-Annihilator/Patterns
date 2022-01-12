@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SystemCore.DataProviders;
+using SystemCore.Entities;
 using SystemCore.Exams;
 using SystemCore.Exersices;
 using SystemCore.Services;
@@ -22,15 +23,12 @@ namespace Infrastructure.Services
 			this.exersiceDataProvider = exersiceDataProvider;
 		}
 
-		public Exam GenerateExam()
+		public IDescribedEntity GenerateExam()
 		{
 			Exam exam = new Exam();
 			exam.Description = "Стандартный экзамен, созданный генератором";
 			List<Test> tests = new List<Test>();
-			Test test = new Test()
-			{
-				Entities = new List<MultipleChoiceExersice>()
-			};
+			Test test = new Test("", 1);
 			test.Description = testDataProvider.GetDescription(0);
 			test.Duration = testDataProvider.GetDuration(0);
 			MultipleChoiceExersice exersice;
@@ -46,7 +44,7 @@ namespace Infrastructure.Services
 			}
 			tests.Add(test);
 			exam.Tests = tests;
-			return exam;
+			return null;
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Infrastructure.Services
 
 		public void EncryptData(PersonalData data)
 		{
-
+			Console.WriteLine("Данные зашифрованы");
 		}
 	}
 }

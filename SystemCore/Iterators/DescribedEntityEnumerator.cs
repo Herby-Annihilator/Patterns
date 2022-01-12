@@ -41,10 +41,10 @@ namespace SystemCore.Iterators
 
 		public bool MoveNext()
 		{
-			if (_currentExersice >= _exersices.Count)
+			if (_currentExersice == _exersices.Count - 1)
 			{
 				_exersicesWasVisited = true;
-				if (_currentTest >= _tests.Count)
+				if (_currentTest == _tests.Count - 1)
 				{
 					_testsWasVisited = true;
 					return false;

@@ -22,7 +22,7 @@ namespace Infrastructure.Services
 
 		private void CompressData(PersonalData data)
 		{
-
+			Console.WriteLine("Данные сжаты");
 		}
 	}
 }

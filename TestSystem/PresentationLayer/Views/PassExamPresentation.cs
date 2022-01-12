@@ -39,7 +39,7 @@ namespace PresentationLayer.Views
 			Console.WriteLine($"Продолжительность теста: {test.Duration} минут\n\n\n");
 			for (int i = 0; i < test.Entities.Count; i++)
 			{
-				ShowMultipleChoiceExersice(i + 1, test.Entities[i]);
+				//ShowMultipleChoiceExersice(i + 1, test.Entities[i]);
 			}
 		}
 		private void ShowMultipleChoiceExersice(int exersiceNumber, MultipleChoiceExersice multipleChoiceExersice)
