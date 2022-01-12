@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SystemCore.Entities;
 using SystemCore.Exams;
 using SystemCore.Exersices;
 using SystemCore.Tests;
@@ -13,7 +14,7 @@ namespace PresentationLayer.Views
 {
 	class PassExamPresentation : Presentation
 	{
-		public Exam ExamToShow { get; set; }
+		public Test ExamToShow { get; set; }
 		internal PassExamPresentation(Presentator presentator)
 		{
 			this.presentator = presentator;
@@ -23,9 +24,14 @@ namespace PresentationLayer.Views
 			Console.Clear();
 			Console.WriteLine(ExamToShow.Description);
 			Console.WriteLine($"Продолжительность экзамена: {ExamToShow.Duration} минут\n\n");
-			foreach (var test in ExamToShow.Tests)
+			int num = 0;
+			foreach (var test in ExamToShow.Entities)
 			{
-				ShowTest(test);
+				num++;
+				if (test is Test)
+					ShowTest((Test)test);
+				else
+					ShowMultipleChoiceExersice(num, (MultipleChoiceExersice)test);
 			}
 			Console.Write("Вы ответили на вопросы экзамена. Нажмите любую клавишу...");
 			Console.ReadKey(true);
@@ -39,7 +45,7 @@ namespace PresentationLayer.Views
 			Console.WriteLine($"Продолжительность теста: {test.Duration} минут\n\n\n");
 			for (int i = 0; i < test.Entities.Count; i++)
 			{
-				//ShowMultipleChoiceExersice(i + 1, test.Entities[i]);
+				ShowMultipleChoiceExersice(i + 1, (MultipleChoiceExersice)test.Entities[i]);
 			}
 		}
 		private void ShowMultipleChoiceExersice(int exersiceNumber, MultipleChoiceExersice multipleChoiceExersice)

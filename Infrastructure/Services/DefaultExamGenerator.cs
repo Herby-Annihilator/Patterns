@@ -25,9 +25,7 @@ namespace Infrastructure.Services
 
 		public IDescribedEntity GenerateExam()
 		{
-			Exam exam = new Exam();
-			exam.Description = "Стандартный экзамен, созданный генератором";
-			List<Test> tests = new List<Test>();
+			Test exam = new Test("Стандартный экзамен, созданный генератором", 100);
 			Test test = new Test("", 1);
 			test.Description = testDataProvider.GetDescription(0);
 			test.Duration = testDataProvider.GetDuration(0);
@@ -42,9 +40,8 @@ namespace Infrastructure.Services
 				exersice.Variants = exersiceDataProvider.GetVariants(i);
 				test.Entities.Add(exersice);
 			}
-			tests.Add(test);
-			exam.Tests = tests;
-			return null;
+			exam.Entities.Add(test);
+			return exam;
 		}
 	}
 }

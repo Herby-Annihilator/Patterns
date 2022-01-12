@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SystemCore.Tests;
 
 namespace PresentationLayer.Views
 {
@@ -29,8 +30,8 @@ namespace PresentationLayer.Views
 				{
 					case ConsoleKey.D1:
 						{
-							//presentator.PresentationRepository.PassExamPresentation.ExamToShow =
-								//presentator.ServiceRepository.ExamGenerator.GenerateExam();
+							presentator.PresentationRepository.PassExamPresentation.ExamToShow =
+								(Test)presentator.ServiceRepository.ExamGenerator.GenerateExam();
 							presentator.ChangePresentation(presentator.PresentationRepository.PassExamPresentation);
 							validAnswer = true;
 							break;
