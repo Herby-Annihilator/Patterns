@@ -9,9 +9,9 @@ namespace SystemCore.Exersices
 {
 	public class Exersice : IDescribedEntity
 	{
-		public string Instruction { get; set; }
-		public string Wording { get; set; }
-		public Skill TestableSkill { get; set; }
+		public string Instruction { get; set; } = "";
+		public string Wording { get; set; } = "";
+		public Skill TestableSkill { get; set; } = new Skill(0, "");
 
 		public virtual IDescribedEntity Clone()
 		{

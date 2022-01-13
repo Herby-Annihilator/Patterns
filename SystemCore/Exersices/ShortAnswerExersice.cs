@@ -9,8 +9,8 @@ namespace SystemCore.Exersices
 {
 	public class ShortAnswerExersice : Exersice
 	{
-		public string RequairedAnswer { get; set; }
-		public string RecievedAnswer { get; set; }
+		public string RequairedAnswer { get; set; } = "";
+		public string RecievedAnswer { get; set; } = "";
 
 		public override IDescribedEntity Clone()
 		{

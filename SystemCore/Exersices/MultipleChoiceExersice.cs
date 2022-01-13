@@ -9,7 +9,7 @@ namespace SystemCore.Exersices
 {
 	public class MultipleChoiceExersice : ShortAnswerExersice
 	{
-		public List<string> Variants { get; set; }
+		public List<string> Variants { get; set; } = new List<string>();
 
 		public override IDescribedEntity Clone()
 		{
