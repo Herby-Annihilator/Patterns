@@ -35,7 +35,7 @@ namespace SystemCore.Accounts
 	{
 		public void Handle(object sender, string eventArgs)
 		{
-			Console.WriteLine(eventArgs);
+			Console.WriteLine($"Админский аккаун реагирует на событие. Аргументы события: {eventArgs}");
 		}
 	}
 
@@ -43,7 +43,7 @@ namespace SystemCore.Accounts
 	{
 		public void Handle(object sender, string eventArgs)
 		{
-			Console.WriteLine(eventArgs);
+			Console.WriteLine($"Админский аккаун реагирует на событие. Аргументы события: {eventArgs}");
 		}
 	}
 
@@ -51,7 +51,7 @@ namespace SystemCore.Accounts
 	{
 		public void Handle(object sender, string eventArgs)
 		{
-			Console.WriteLine(eventArgs);
+			Console.WriteLine($"Админский аккаун реагирует на событие. Аргументы события: {eventArgs}");
 		}
 	}
 }

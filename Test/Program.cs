@@ -17,7 +17,8 @@ using Infrastructure.Services;
 using Infrastructure.ExistingServices;
 using Infrastructure.FactoryMethods.Base;
 using Infrastructure.FactoryMethods;
-
+using SystemCore.Accounts;
+using SystemCore.Events;
 
 namespace Test
 {
@@ -25,93 +26,98 @@ namespace Test
 	{
 		static void Main(string[] args)
 		{
-			TestFactoryMethod();
+			TestObserver();
+			//ReactOnEvent();
 		}
 
-		static void TestFactoryMethod()
+		static void TestState()
 		{
-			EncryptorCreator<string, string> encryptorCreator = new DefaultEncryptorCreator();
-			UseEncryptorCreator(encryptorCreator);
+			DefaultAccountDataManager defaultAccountDataManager = new DefaultAccountDataManager();
 
-			encryptorCreator = new AdapterEncryptorCreator();
-			UseEncryptorCreator(encryptorCreator);
+			AccountManager accountManager = new AccountManager(defaultAccountDataManager);
+
+			DefaultEncryptor defaultEncryptor = new DefaultEncryptor();
+
+			DefaultLoginService defaultLoginService = new DefaultLoginService(defaultAccountDataManager, defaultEncryptor);
+
+			DefaultExamGenerator defaultExamGenerator = new DefaultExamGenerator(new DefaultTestDataProvider(),
+				new DefaultExersiceDataProvider());
+
+			Presentator presentator = ConsolePresentator.Init(accountManager, defaultLoginService, defaultExamGenerator);
+			presentator.StartPresentation();
 		}
 
-		static void UseEncryptorCreator(EncryptorCreator<string, string> encryptorCreator)
+		static void TestMemento()
 		{
-			string toEncrypt = "I am encryptable";
-			IEncryptor<string, string> encryptor = encryptorCreator.CreateEncryptor();
-			Console.WriteLine(encryptor.EncryptData(toEncrypt));
+			PersonalData originator = new PersonalData(
+				"firstName",
+				"lastName",
+				"patronymic",
+				DateTime.Now,
+				new Address("Rissia", new Locality(LocalityType.Town, "Barnaul"), "No street", 15)
+				);
+
+			Console.WriteLine(originator.Address.StreetName);
+
+			IMemento memento = originator.GetMemento();
+			originator.Address.StreetName = "Pr. Lenina";
+
+			Console.WriteLine(originator.Address.StreetName);
+
+			originator.Restore(memento);
+			Console.WriteLine(originator.Address.StreetName);
 		}
 
-		static void TestAbstractFactory()
+
+		static void TestObserver()
 		{
-			IProviderFactory factory;
+			DefaultAccountDataManager defaultAccountDataManager = new DefaultAccountDataManager();
 
-			factory = new DefaultProvidersFactory();
-			DescribeFactoriesProducts(factory);
+			AccountManager accountManager = new AccountManager(defaultAccountDataManager);
 
-			factory = new FileProvidersFactory();
-			DescribeFactoriesProducts(factory);
+			AdminAccount adminAccount = new AdminAccount(accountManager);
+			PasswordChangedHandler passwordChangedHandler = new PasswordChangedHandler();
+			accountManager.PasswordChanged.AddHandler(passwordChangedHandler);
+
+			PersonalData data = new PersonalData(
+				"firstName",
+				"lastName",
+				"patronymic",
+				DateTime.Now,
+				new Address("Rissia", new Locality(LocalityType.Town, "Barnaul"), "No street", 15)
+				);
+
+			Account testAcc = accountManager.CreateAccount("user_1", "123", data);
+			accountManager.ChangePassword(testAcc, "321");
+			accountManager.ChangeUserName(testAcc, "10_user");
 		}
-		static void DescribeFactoriesProducts(IProviderFactory factory)
-		{
-			IExersiceDataProvider exersiceDataProvider = factory.CreateExerciseDataProvider();
-			ITestDataProvider testDataProvider = factory.CreateTestDataProvider();
 
-			Console.WriteLine($"Описание задания: {exersiceDataProvider.GetInstruction(0)}, {exersiceDataProvider.GetWording(0)}");
-			Console.WriteLine($"Описание теста: {testDataProvider.GetDescription(0)}, {testDataProvider.GetDuration(0)}");
+		static void ReactOnEvent()
+		{
+			DefaultAccountDataManager defaultAccountDataManager = new DefaultAccountDataManager();
+			AccountManager accountManager = new AccountManager(defaultAccountDataManager);
+
+			PasswordChangedHandler passwordChangedHandler = new PasswordChangedHandler();
+			accountManager.PasswordChanged.AddHandler(passwordChangedHandler);
+
+			PersonalData data = new PersonalData(
+				"firstName",
+				"lastName",
+				"patronymic",
+				DateTime.Now,
+				new Address("Rissia", new Locality(LocalityType.Town, "Barnaul"), "No street", 15)
+				);
+
+			Account testAcc = accountManager.CreateAccount("user_1", "123", data);
+			accountManager.ChangePassword(testAcc, "10101010");
 		}
 
-		static void TestSingleton()
+		class PasswordChangedHandler : IEventHandler<string>
 		{
-			IAccountDataManager dataManager = new DefaultAccountDataManager();
-			AccountManager manager = new AccountManager(dataManager);
-			IEncryptor<string, string> encryptor = new DefaultEncryptor();
-			ILoginService loginService = new DefaultLoginService(dataManager, encryptor);
-			IExamGenerator examGenerator = new DefaultExamGenerator(new DefaultTestDataProvider(), new DefaultExersiceDataProvider());
-
-			Presentator presentator_1 = ConsolePresentator.Init(manager, loginService, examGenerator);
-
-			Presentator presentatorClone = ConsolePresentator.Init(manager, loginService, examGenerator);
-
-			if (ReferenceEquals(presentator_1, presentatorClone))
+			void IEventHandler<string>.Handle(object sender, string eventArgs)
 			{
-				Console.WriteLine("presentator_1 это тот же объект, что и presentatorClone");
+				Console.WriteLine($"Класс Program реагирует на событие. Аргументы события: {eventArgs}");
 			}
-			else
-			{
-				Console.WriteLine("Ссылки указывают на разных презентаторов");
-			}
-		}
-
-		static void TestPrototype()
-		{
-			IExamGenerator examGenerator = new DefaultExamGenerator(new DefaultTestDataProvider(), new DefaultExersiceDataProvider());
-
-			SystemCore.Tests.Test examPrototype = (SystemCore.Tests.Test)examGenerator.GenerateExam();
-
-			IDescribedEntity exam = new SystemCore.Tests.Test("Экзамен 2 - создан вручную", 100);
-			for (int i = 0; i < 3; i++)
-			{
-				((SystemCore.Tests.Test)exam).AddEntity(new Exersice() { Instruction = $"Ex {i + 1} ", Wording = "Hello" });
-			}
-
-			IDescribedEntity exam_2 = examPrototype.Clone();
-
-			IDescribedEntity exam_3 = exam.Clone();
-
-			Console.WriteLine("exam и examPrototype");
-			Console.WriteLine(exam.GetDescription());
-			Console.WriteLine(examPrototype.GetDescription());
-
-			Console.WriteLine("\r\n\r\nexam_2 и examPrototype");
-			Console.WriteLine(exam_2.GetDescription());
-			Console.WriteLine(examPrototype.GetDescription());
-
-			Console.WriteLine("\r\n\r\nexam_3 и exam");
-			Console.WriteLine(exam_3.GetDescription());
-			Console.WriteLine(exam.GetDescription());
 		}
 	}
 }
