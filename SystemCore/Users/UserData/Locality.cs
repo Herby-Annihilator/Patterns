@@ -16,6 +16,11 @@ namespace SystemCore.Users.UserData
 			Type = type;
 			Name = name;
 		}
+
+		public Locality Clone()
+		{
+			return new Locality(Type, (string)Name.Clone());
+		}
 	}
 
 	public enum LocalityType

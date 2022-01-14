@@ -20,5 +20,10 @@ namespace SystemCore.Users.UserData
 		public Locality Locality { get; set; }
 		public string StreetName { get; set; }
 		public int HouseNumber { get; set; }
+
+		public Address Clone()
+		{
+			return new Address((string)CountryName.Clone(), Locality.Clone(), (string)StreetName.Clone(), HouseNumber);
+		}
 	}
 }

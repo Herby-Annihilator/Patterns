@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SystemCore.Entities
 {
-	public interface ISubject
+	public interface IOriginator
 	{
-		void Notify();
-		void AddSubscriber(IObserver subscriber);
-		void RemoveSubscriber(IObserver subscriber);
+		IMemento GetMemento();
 	}
 }

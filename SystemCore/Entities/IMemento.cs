@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SystemCore.Entities
 {
-	public interface IObserver
+	public interface IMemento
 	{
-		void ProcessEvent(ISubject sender);
+		void Restore();
 	}
 }
