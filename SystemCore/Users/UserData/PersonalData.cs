@@ -24,18 +24,21 @@ namespace SystemCore.Users.UserData
 			Address = address;
 		}
 
-		public void Restore(string firstName, string lastName, string patronymic, DateTime birthday, Address address)
-		{
-			FirstName = firstName;
-			LastName = lastName;
-			Patronymic = patronymic;
-			Birthday = birthday;
-			Address = address;
-		}
-
 		public IMemento GetMemento()
 		{
-			return new Memento(this, FirstName, LastName, Patronymic, Birthday, Address);
+			return new Memento(FirstName, LastName, Patronymic, Birthday, Address);
+		}
+
+		public void Restore(IMemento memento)
+		{
+			Memento mem = memento as Memento;
+			if (mem == null)
+				throw new ArgumentException(nameof(memento));
+			FirstName = mem.FirstName;
+			LastName = mem.LastName;
+			Patronymic = mem.Patronymic;
+			Birthday = mem.Birthday;
+			Address = mem.Address;
 		}
 	}
 }

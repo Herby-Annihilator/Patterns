@@ -9,5 +9,6 @@ namespace SystemCore.Entities
 	public interface IOriginator
 	{
 		IMemento GetMemento();
+		void Restore(IMemento memento);
 	}
 }

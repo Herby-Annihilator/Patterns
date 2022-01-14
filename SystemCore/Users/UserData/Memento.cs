@@ -7,27 +7,20 @@ using SystemCore.Entities;
 
 namespace SystemCore.Users.UserData
 {
-	public class Memento : IMemento
+	internal class Memento : IMemento
 	{
-		private PersonalData _originator;
-		private string _firstName;
-		private string _lastName;
-		private string _patronymic;
-		private DateTime _birthday;
-		private Address _address;
-		internal Memento(PersonalData originator, string firstName, string lastName, string patronymic, DateTime birthday, Address address)
+		internal string FirstName { get; private set; }
+		internal string LastName { get; private set; }
+		internal string Patronymic { get; private set; }
+		internal DateTime Birthday { get; private set; }
+		internal Address Address { get; private set; }
+		internal Memento(string firstName, string lastName, string patronymic, DateTime birthday, Address address)
 		{
-			_originator = originator;
-			_firstName = (string)firstName.Clone();
-			_lastName = (string)lastName.Clone();
-			_patronymic = (string)patronymic.Clone();
-			_birthday = birthday;
-			_address = address.Clone();
-		}
-
-		public void Restore()
-		{
-			_originator.Restore(_firstName, _lastName, _patronymic, _birthday, _address);
+			FirstName = (string)firstName.Clone();
+			LastName = (string)lastName.Clone();
+			Patronymic = (string)patronymic.Clone();
+			Birthday = birthday;
+			Address = address.Clone();
 		}
 	}
 }

@@ -8,6 +8,6 @@ namespace SystemCore.Entities
 {
 	public interface IMemento
 	{
-		void Restore();
+		
 	}
 }
